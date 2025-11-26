@@ -1,0 +1,12 @@
+services:
+  - name: backend
+    buildCommand: "npm install"
+    startCommand: "node index.js"
+    rootDir: backend
+    envVars:
+      - key: PORT
+        value: 10000
+
+  - name: frontend
+    staticPublishPath: "./"
+    rootDir: frontend
