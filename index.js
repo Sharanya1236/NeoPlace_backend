@@ -1,13 +1,3 @@
-const PORT = process.env.PORT || 3000;
-
-app.get('/', (req, res) => {
-  res.send("Welcome to the Placement App Backend!");
-});
-
-app.listen(PORT, () => {
-  console.log(`🚀 Server running at Port: ${PORT}`);
-});
-
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
@@ -611,22 +601,24 @@ app.get('/api/users/me', authMiddleware, async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
-
 // ------------------------------------
 
-// Your app.listen(...) line should be right after this
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+// FIX: define PORT for Render deployment
+const PORT = process.env.PORT || 3000;
+
+// FIX: Production-safe chatbot endpoint
+// If backend can't reach localhost in production, optional disable chat
+// or replace with your hosted chat model when available
+app.post('/api/chat', authMiddleware, async (req, res) => {
+  try {
+    return res.json({ response: "AI chat service is currently in maintenance mode on production." });
+  } catch (error) {
+    console.error("Chat error:", error);
+    res.status(500).json({ message: "Chat service unavailable." });
+  }
 });
 
-
-// Helper function to map language names to Judge0 IDs
-function getLanguageId(language) {
-  switch (language.toLowerCase()) {
-    case 'javascript': return 93;
-    case 'python': return 92;
-    case 'java': return 91;
-    case 'c++': return 54;
-    default: return null;
-  }
-}
+// START SERVER (MANDATORY AT LAST)
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
