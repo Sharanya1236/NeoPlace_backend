@@ -16,7 +16,8 @@ const User = require('./models/User');
 const ChatHistory = require('./models/ChatHistory');
 const Problem = require('./models/Problem');
 const Submission = require('./models/Submission');
-const Company = require('./models/Company');
+const Company = require('./models/company');
+
 const pdfParse = require("pdf-parse/lib/pdf-parse.js");
 
 
